@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className="bg-white shadow px-4 py-2 flex items-center justify-between">
       <div className="flex items-center space-x-4">
-        <Link to="/" className="text-xl font-bold text-blue-700">SurveyApp</Link>
+        <Link to="/" className="text-xl font-bold text-blue-700">SurveyKarrot</Link>
       </div>
       <div className="flex items-center space-x-4">
         {user ? (
