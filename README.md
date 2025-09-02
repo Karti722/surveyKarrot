@@ -59,6 +59,7 @@ git clone https://github.com/Karti722/surveyKarrot.git
    JWT_SECRET=your_jwt_secret
    ```
    Example:
+   ```
    DB_HOST = db.miszspocowhjzvirbewq.supabase.co
    DB_PORT = 5432
    DB_NAME = postgres
@@ -67,6 +68,7 @@ git clone https://github.com/Karti722/surveyKarrot.git
    NODE_ENV = production
    DB_PASSWORD = Priororder5698
    JWT_SECRET = AO+6ccmta0TopFhVa+bpqJNg3xHzUfmOAY7uU5uu1qzDeZr3+rjJd7PbOS3189jNYbKp4tCWHR0KR6D8oL7VAQ==
+   ```
 
 
 
