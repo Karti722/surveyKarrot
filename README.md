@@ -1,6 +1,9 @@
 
 # SurveyKarrot
 
+## GitHub link:
+https://github.com/Karti722/surveyKarrot
+
 ## Overview
 
 SurveyKarrot is a full-stack survey management application that allows users to create, distribute, and analyze surveys. Built with React + TypeScript on the frontend and Node.js + Express + PostgreSQL on the backend, it provides secure authentication and a modern user experience.
@@ -119,8 +122,11 @@ Include the JWT token in headers for protected routes.
 
 ## Demo Video
 
-[Watch the demonstration](https://www.loom.com/share/3195d894a0e1463588b1bbb13d778c94?sid=72ac8308-d3a2-4054-bdfe-5371d42f627c)
+[Download the Video from Google Drive and watch the demonstration](https://drive.google.com/file/d/1u0G2TV2aCtrAHVzMxvxPGENaLFZzh8Hm/view?usp=sharing)
 
 ---
+
+## Additional SurveyKarrot API Notes:
+https://docs.google.com/document/d/1WxATN3BbHukcHvChIdICU7yRJtcQ5R_w6OeXf8Dsuos/edit?usp=sharing
 
 Created by Kartikeya Kumaria
