@@ -1,127 +1,126 @@
-# Task Management Application Created by Kartikeya Kumaria
+
+# SurveyKarrot
 
 ## Overview
 
-This is a full-stack "Task Management" application built using React + TypeScript for the frontend, Node.js for the backend, and PostgreSQL for the database. The application allows users to register, log in, and manage tasks effectively.
+SurveyKarrot is a full-stack survey management application that allows users to create, distribute, and analyze surveys. Built with React + TypeScript on the frontend and Node.js + Express + PostgreSQL on the backend, it provides secure authentication and a modern user experience.
 
 ## Features
 
-- **User Authentication**: Users can register and log in to access their tasks.
-- **Task Management**: Users can create, view, update, and delete tasks.
-- **Secure Routes**: Task operations are protected and require authentication.
+- **User Authentication**: Register and log in securely (JWT, bcrypt)
+- **Survey Management**: Create, view, and manage surveys
+- **Survey Submission**: Users can submit responses to surveys
+- **View Submissions**: See all submissions and details
+- **Role Support**: (If enabled) Different user roles for access control
+- **Modern UI**: Responsive design with React
 
 ## Technologies Used
 
-- **Frontend**: React, TypeScript, Axios
+- **Frontend**: React, TypeScript, Vite, Axios
 - **Backend**: Node.js, Express, TypeScript, PostgreSQL
 - **Database**: PostgreSQL
-- **Authentication**: JWT for token-based authentication, bcrypt for password hashing
+- **Authentication**: JWT, bcrypt
 
 ## Setup Instructions
 
-### Clone the Repository
+### 1. Clone the Repository
 
-1. Clone the repo onto your local machine:
+```sh
+git clone https://github.com/Karti722/surveyKarrot.git
+```
+
+### 2. Backend Setup
+
+1. Navigate to the backend directory:
+   ```sh
+   cd surveyKarrot/backend
    ```
-   git clone https://github.com/Karti722/lumaa-spring-2025-swe-submission-from-kartikeya.git
-   ```
-
-### Backend
-
-1. Navigate to the `task_management-app/backend` directory on your terminal or Windows CMD.
 2. Install dependencies:
-   ```
+   ```sh
    npm install
    ```
-
-   
-3. Set up the PostgreSQL database and make sure to store the password somewhere safe for reference (like a .txt file on your desktop):
-   - Create a new database for the application.
-   - Run the necessary migrations to set up the `users` and `tasks` tables using the query tool in PgAdmin4 under your tasks database. Insert the following code and run it.
- ```
- CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE tasks (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    isComplete BOOLEAN DEFAULT FALSE,
-    userId INTEGER REFERENCES users(id) ON DELETE CASCADE
-);
- ```
- 4. Create a super user when adding Login/Group roles in PgAdmin 4. Remember to also store this
-.
- 5. Make sure to set up a .env file and set up the credentials as per this example. Only change the DB_USER, DB_NAME, and DB_PASSWORD variables to what you have set up on your database (or PgAdmin 4)
-```
-DB_USER=<YOUR_DB_SUPERUSER_HERE>
-DB_HOST=localhost
-DB_NAME=<YOUR_DB_NAME_HERE>
-DB_PASSWORD=<YOUR_DB_PASSWORD_HERE>
-DB_PORT=5432
-JWT_SECRET=your_jwt_secret
-```
- 6. Make sure the tsconfig.json in the backend folder is set up to the root of the backend folder itself
+3. Set up PostgreSQL:
+   - Create a new database (e.g., `surveykarrot`)
+   - Run migrations in `backend/migrations/` to set up tables (users, surveys, submissions, etc.)
+   - Example migration (run in PgAdmin or psql):
+     ```sql
+     -- See backend/migrations/*.sql for schema
+     ```
+4. Create a `.env` file in `backend/`:
+   ```env
+   DB_USER=<YOUR_DB_USER>
+   DB_HOST=localhost
+   DB_NAME=<YOUR_DB_NAME>
+   DB_PASSWORD=<YOUR_DB_PASSWORD>
+   DB_PORT=5432
+   JWT_SECRET=your_jwt_secret
    ```
-   {
-  "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "rootDir": "./src"
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
-}
-```
-7. Start the server from the backend root directory (`task_management-app/backend`):
-   ```
+   Example:
+   DB_HOST = db.miszspocowhjzvirbewq.supabase.co
+   DB_PORT = 5432
+   DB_NAME = postgres
+   DB_USER = postgres
+   DB_SSL = true
+   NODE_ENV = production
+   DB_PASSWORD = Priororder5698
+   JWT_SECRET = AO+6ccmta0TopFhVa+bpqJNg3xHzUfmOAY7uU5uu1qzDeZr3+rjJd7PbOS3189jNYbKp4tCWHR0KR6D8oL7VAQ==
+
+
+
+
+5. Start the backend server:
+   ```sh
    npm run dev
    ```
 
+### 3. Frontend Setup
 
-### Frontend
-
-8. Navigate to the `task-management-app\frontend` directory.
-9. Install dependencies:
+1. Navigate to the frontend directory:
+   ```sh
+   cd ../frontend
    ```
+2. Install dependencies:
+   ```sh
    npm install
    ```
-10. Start the React application:
+3. Start the frontend app:
+   ```sh
+   npm run dev
    ```
-   npm start
-   ```
-11. Now that the frontend and backend servers are running, you can login, add, update, and delete tasks
+
+### 4. Access the App
+
+- Frontend: [http://localhost:5173](http://localhost:5173) (default Vite port)
+- Backend: [http://localhost:3000](http://localhost:3000) (default Express port)
 
 ## Usage
 
-1. Register a new user through the registration form.
-2. Log in using the registered credentials.
-3. Manage tasks by creating, updating, and deleting them from the tasks page.
+1. Register a new account
+2. Log in
+3. Create and manage surveys
+4. Share surveys and collect responses
+5. View submissions and analyze results
 
-## API Testing -- I Used ThunderClient
+## API Testing
 
-Using ThunderClient
-You can use ThunderClient, a REST API client extension for Visual Studio Code, to manually test the APIs.
+You can use ThunderClient (VS Code extension) or Postman to test API endpoints:
 
-## How to Install ThunderClient?
-Install ThunderClient from the Visual Studio Code marketplace.
-Open ThunderClient and create new requests to test the various endpoints (e.g., POST /auth/register, POST /auth/login, GET /tasks, POST /tasks, PUT /tasks/:id, DELETE /tasks/:id).
-Ensure to include the JWT token (you get this from running  the login POST request) in the headers for protected routes.
-Relevant Notes on Testing
-Ensure that the PostgreSQL server is running before starting the backend.
-Use the .env file to configure environment variables for the database connection and JWT secret.
-Test all endpoints to verify that they are working as expected. Screenshots of all the ThunderClient tests are in the setting-up-images directory
+- **Auth**: `POST /auth/register`, `POST /auth/login`
+- **Surveys**: `GET /surveys`, `POST /surveys`, etc.
+- **Submissions**: `GET /submissions`, `POST /submissions`, etc.
 
-## Salary expectations:
-I believe with my skills and experience in web development, my desired salary is at minimum $40,000-$50,000 a year. I am open to negotiations if that can't be arranged.
+Include the JWT token in headers for protected routes.
 
-## Demonstration Video Link:
-https://www.loom.com/share/3195d894a0e1463588b1bbb13d778c94?sid=72ac8308-d3a2-4054-bdfe-5371d42f627c 
+## Notes
+
+- Ensure PostgreSQL is running before starting the backend.
+- Configure environment variables in `.env` for database and JWT.
+- See `backend/migrations/` for schema setup.
+
+## Demo Video
+
+[Watch the demonstration](https://www.loom.com/share/3195d894a0e1463588b1bbb13d778c94?sid=72ac8308-d3a2-4054-bdfe-5371d42f627c)
+
+---
+
+Created by Kartikeya Kumaria
