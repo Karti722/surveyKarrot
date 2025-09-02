@@ -1,7 +1,7 @@
 {
-  "name": "surveyKarrot",
+  "name": "task-management-app-backend",
   "version": "1.0.0",
-  "description": "Backend for SurveyKarrot application using Node.js and PostgreSQL",
+  "description": "Backend for Task Management application using Node.js and PostgreSQL",
   "main": "src/server.ts",
   "scripts": {
     "start": "ts-node src/server.ts",

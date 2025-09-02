@@ -1,2 +1,7 @@
+# All backend files to be ignored here:
 backend/node_modules
+backend/package-lock.json
+backend/.env
+# All frontend files to be ignored here:
 frontend/node_modules
+frontend/package-lock.json

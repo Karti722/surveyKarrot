@@ -1,4 +1,42 @@
+/* Consistent survey button styles */
 @import "tailwindcss";
+
+.survey-btn {
+  font-family: inherit;
+  border-width: 2px;
+  border-radius: var(--border-radius);
+  font-size: 1.08rem;
+  letter-spacing: 0.01em;
+  transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s;
+}
+.survey-btn-primary {
+  background: var(--color-primary);
+  color: #111;
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 12px 0 #0003;
+}
+.survey-btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  color: #111;
+}
+.survey-btn-nav {
+  background: var(--color-surface-alt);
+  color: #111;
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 8px 0 #0002;
+}
+.survey-btn-nav:hover:not(:disabled) {
+  background: var(--color-surface);
+  color: #111;
+}
+.survey-btn-disabled {
+  background: var(--color-surface-alt);
+  color: #111;
+  border-color: var(--color-border);
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+}
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -7,7 +45,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* background-color: #242424; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,13 +62,7 @@ a:hover {
   color: #535bf2;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
+
 
 h1 {
   font-size: 3.2em;
@@ -39,17 +71,18 @@ h1 {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 2px solid;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #2d762f;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #d864ff56;
+  color: green;
 }
 button:focus,
 button:focus-visible {
@@ -59,12 +92,12 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
   }
   a:hover {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: #e8ebeb;
   }
 }
