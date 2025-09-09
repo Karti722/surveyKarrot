@@ -14,7 +14,7 @@ import HowToUsePage from './pages/HowToUsePage';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen text-gray-900">
       <Navbar />
       <Routes>
         <Route path="/" element={<LandingPage />} />
@@ -24,9 +24,9 @@ function App() {
         <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="/:username-survey-submissions" element={<DashboardPage />} />
         <Route path="/:username-survey-submissions/:submissionId" element={<SubmissionDetailPage />} />
-  <Route path="/seeAllSubmissions" element={<SeeAllSubmissionsPage />} />
-  <Route path="/createSurvey" element={<CreateSurveyPage />} />
-  <Route path="/how-to-use" element={<HowToUsePage />} />
+        <Route path="/seeAllSubmissions" element={<SeeAllSubmissionsPage />} />
+        <Route path="/createSurvey" element={<CreateSurveyPage />} />
+        <Route path="/how-to-use" element={<HowToUsePage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>

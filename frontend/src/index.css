@@ -38,6 +38,22 @@
   box-shadow: none;
 }
 
+/* Animated gradient background for the app */
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(240deg, #ffffff, #d8f5f5, #e1dede, #ffffff);
+  background-size: 800% 800%;
+  animation: gradientBG 60s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -100,4 +116,55 @@ button:focus-visible {
   button {
     background-color: #e8ebeb;
   }
+}
+
+/* Fade-in animation for page content */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1.2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Button hover scale effect */
+button, .survey-btn {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+button:hover, .survey-btn:hover {
+  transform: scale(1.07);
+  box-shadow: 0 4px 16px 0 #0002;
+}
+
+/* Navbar link underline animation */
+.navbar-link {
+  position: relative;
+  text-decoration: none;
+}
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #fcb69f, #a1c4fd);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+.navbar-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Card/section entrance animation */
+.slide-in {
+  opacity: 0;
+  animation: slideIn 1s cubic-bezier(.25,.46,.45,.94) forwards;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
 }

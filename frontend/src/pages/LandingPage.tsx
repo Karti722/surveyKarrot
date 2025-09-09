@@ -7,8 +7,13 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 w-full">
-      <h1 className="survey-title text-4xl mb-4">Welcome to the Survey App</h1>
-      <p className="mb-8 text-lg text-text-secondary text-center max-w-xl">Start a survey below. You can login or register at any time to save your results!</p>
+  <h1 className="survey-title text-3xl sm:text-4xl mb-2 font-bold text-center break-words max-w-2xl leading-tight">Welcome to SurveyKarrot</h1>
+      <div className="text-base font-normal text-text-secondary text-center max-w-xl mb-4">A survey application for users and creators</div>
+      <div className="text-sm font-normal text-center text-text-secondary mb-6">
+        created by{' '}
+        <a href="https://www.linkedin.com/in/kartikeya-kumaria/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Kartikeya Kumaria</a>
+      </div>
+  <p className="mb-8 text-base font-normal text-text-secondary text-center max-w-xl">Start a survey below. You can login or register at any time to save your results!</p>
       <div className="w-full max-w-md space-y-5">
         {loading && <div className="text-center text-text-secondary">Loading surveys...</div>}
         {error && <div className="text-red-500 text-center font-semibold">{error}</div>}
