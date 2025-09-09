@@ -15,6 +15,9 @@ const Navbar: React.FC = () => {
   return (
     <nav className="bg-white shadow px-4 py-2 flex items-center justify-between">
       <div className="flex items-center space-x-4">
+        <Link to="/how-to-use" title="How to Use" className="text-xl px-2 py-1 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center" style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>
+          ?
+        </Link>
         <Link to="/" className="text-xl font-bold text-blue-700">SurveyKarrot</Link>
       </div>
       <div className="flex items-center space-x-4">

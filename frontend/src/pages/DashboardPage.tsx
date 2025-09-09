@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { fetchUserSubmissions } from '../api';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface Submission {
   id: string;
@@ -12,14 +12,13 @@ interface Submission {
 }
 
 const DashboardPage: React.FC = () => {
-  const { user, token } = useAuth();
-  const { username } = useParams();
+  const { user } = useAuth();
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user?.username) return;
+    if (user === null || !user) return;
     setLoading(true);
     fetchUserSubmissions(user.username)
       .then(data => {
@@ -35,7 +34,7 @@ const DashboardPage: React.FC = () => {
 
   // Group submissions by survey title (prefer new field, fallback to old)
   const grouped = submissions.reduce((acc, sub) => {
-    const title = sub.survey_title || sub.surveyTitle || sub.survey_id || 'Untitled Survey';
+    const title = sub.survey_title || sub.surveyTitle || 'Untitled Survey';
     acc[title] = acc[title] || [];
     acc[title].push(sub);
     return acc;
@@ -57,6 +56,7 @@ const DashboardPage: React.FC = () => {
             <div className="mt-2 space-y-2">
               {subs.map(sub => {
                 const dateStr = sub.survey_created_at || sub.createdAt;
+                if (!user) return null;
                 return (
                   <Link
                     key={sub.id}

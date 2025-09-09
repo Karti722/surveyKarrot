@@ -14,7 +14,6 @@ const LoginPage: React.FC = () => {
   // If coming from survey, preserve answers and surveyId
   const fromSurvey = location.state?.fromSurvey;
   const surveyId = location.state?.surveyId;
-  const answers = location.state?.answers;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

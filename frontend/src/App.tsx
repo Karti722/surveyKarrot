@@ -7,9 +7,10 @@ import RegisterPage from './pages/RegisterPage';
 import ThankYouPage from './pages/ThankYouPage';
 import DashboardPage from './pages/DashboardPage';
 import SubmissionDetailPage from './pages/SubmissionDetailPage';
-import Navbar from './components/Navbar';
+import Navbar from './components/navbar';
 import SeeAllSubmissionsPage from './pages/SeeAllSubmissionsPage';
 import CreateSurveyPage from './pages/CreateSurveyPage';
+import HowToUsePage from './pages/HowToUsePage';
 
 function App() {
   return (
@@ -23,8 +24,9 @@ function App() {
         <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="/:username-survey-submissions" element={<DashboardPage />} />
         <Route path="/:username-survey-submissions/:submissionId" element={<SubmissionDetailPage />} />
-        <Route path="/seeAllSubmissions" element={<SeeAllSubmissionsPage />} />
-        <Route path="/createSurvey" element={<CreateSurveyPage />} />
+  <Route path="/seeAllSubmissions" element={<SeeAllSubmissionsPage />} />
+  <Route path="/createSurvey" element={<CreateSurveyPage />} />
+  <Route path="/how-to-use" element={<HowToUsePage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>

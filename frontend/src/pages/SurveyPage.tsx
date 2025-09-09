@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useSurvey } from '../hooks/useSurvey';
 import { API_BASE } from '../api';
 import { useAuth } from '../hooks/useAuth';
 import { submitSurveyResponse } from '../api';
@@ -9,7 +8,7 @@ import type { Survey } from '../contexts/SurveyContext';
 const SurveyPage: React.FC = () => {
   const { surveyId } = useParams<{ surveyId: string }>();
   // Always fetch latest survey details directly from backend
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const [survey, setSurvey] = useState<Survey | null>(null);
