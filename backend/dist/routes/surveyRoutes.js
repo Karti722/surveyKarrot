@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const router = express_1.default.Router();
+const surveyController_1 = require("../controllers/surveyController");
+router.get('/user-submissions/:username', surveyController_1.getUserSubmissionsByUsername);
+router.get('/admin/all-submissions', surveyController_1.getAllSurveySubmissions);
+router.post('/admin/download-survey-data', surveyController_1.downloadAllSurveyData);
+router.get('/surveys', surveyController_1.getSurveys);
+router.get('/surveys/:id', surveyController_1.getSurvey);
+router.post('/surveys/:id/submit', surveyController_1.submitSurveyResponse);
+router.get('/submissions/:sessionId', surveyController_1.getSurveySubmission);
+router.get('/surveys/submissions/:id', surveyController_1.getSurveySubmissionByIdController);
+router.get('/my-submissions', surveyController_1.getUserSubmissions);
+router.delete('/my-submissions/:submissionId', surveyController_1.deleteUserSubmission);
+router.post('/surveys', surveyController_1.createSurvey);
+router.post('/surveys/:id/questions', surveyController_1.addQuestionToSurvey);
+router.post('/surveys/sample/create', surveyController_1.createSampleSurvey);
+exports.default = router;
