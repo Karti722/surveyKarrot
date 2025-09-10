@@ -5,7 +5,7 @@ export async function fetchUserSubmissionsByUsername(username: string) {
   return res.json();
 }
 // API utility for backend requests
-export const API_BASE = 'http://localhost:5000/api'; // Changed from 3000 to 5000
+export const API_BASE = 'https://survey-karrot.vercel.app/api'; // Changed from 3000 to 5000
 
 export async function fetchSurveys() {
   const res = await fetch(`${API_BASE}/surveys`);
