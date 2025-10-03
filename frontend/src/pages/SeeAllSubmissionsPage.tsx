@@ -47,16 +47,40 @@ const SeeAllSubmissionsPage: React.FC = () => {
   }, []);
 
   const handleDownload = async (fileType: string) => {
-  const res = await fetch(`${API_BASE}/admin/download-survey-data`, {
+    const token = localStorage.getItem('token');
+    console.log('[DOWNLOAD] Token from localStorage:', token);
+    console.log('[DOWNLOAD] Current user:', user);
+    console.log('[DOWNLOAD] User role:', user?.role);
+    
+    if (!token) {
+      alert('No authentication token found. Please log in again.');
+      return;
+    }
+    
+    if (user?.role !== 'admin') {
+      alert('You must be an admin to download survey data.');
+      return;
+    }
+    
+    const res = await fetch(`${API_BASE}/admin/download-survey-data`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ downloadFileType: fileType })
     });
-    if (!res.ok) return alert('Download failed');
+    
+    console.log('[DOWNLOAD] Response status:', res.status);
+    console.log('[DOWNLOAD] Response ok:', res.ok);
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('[DOWNLOAD] Error response:', errorText);
+      return alert(`Download failed: ${res.status} - ${errorText}`);
+    }
+    
     const blob = await res.blob();
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');

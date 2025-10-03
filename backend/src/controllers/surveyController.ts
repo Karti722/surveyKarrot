@@ -15,8 +15,7 @@ export const getSurveySubmissionByIdController = async (req: Request, res: Respo
     }
     res.json(submission);
   } catch (error) {
-    console.error('Error fetching submission by ID:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Failed to fetch submission' });
   }
 };
 // Admin: Get all survey submissions
@@ -25,25 +24,18 @@ export const getAllSurveySubmissions = async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
   if (authHeader && authHeader.startsWith('Bearer ')) {
     token = authHeader.split(' ')[1];
-    console.log('[ADMIN ENDPOINT] Using Bearer token from Authorization header.');
   } else if (req.cookies?.token) {
     token = req.cookies.token;
-    console.log('[ADMIN ENDPOINT] Using token from cookies.');
-  } else {
-    console.warn('[ADMIN ENDPOINT] No token found in Authorization header or cookies.');
   }
   if (!token) {
     return res.status(401).json({ error: 'Not authenticated: No token provided in header or cookie.' });
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
-    console.log('[ADMIN ENDPOINT] Decoded token:', decoded);
     if (!decoded.role) {
-      console.warn('[ADMIN ENDPOINT] Token does not contain a role:', decoded);
       return res.status(401).json({ error: 'Invalid token: No role in token.' });
     }
     if (decoded.role !== 'admin') {
-      console.warn('[ADMIN ENDPOINT] User is not admin:', decoded);
       return res.status(403).json({ error: 'Forbidden: Admins only' });
     }
     const submissions = await surveyService.getAllSurveySubmissions();
@@ -61,25 +53,18 @@ export const downloadAllSurveyData = async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
   if (authHeader && authHeader.startsWith('Bearer ')) {
     token = authHeader.split(' ')[1];
-    console.log('[ADMIN ENDPOINT] Using Bearer token from Authorization header.');
   } else if (req.cookies?.token) {
     token = req.cookies.token;
-    console.log('[ADMIN ENDPOINT] Using token from cookies.');
-  } else {
-    console.warn('[ADMIN ENDPOINT] No token found in Authorization header or cookies.');
   }
   if (!token) {
     return res.status(401).json({ error: 'Not authenticated: No token provided in header or cookie.' });
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
-    console.log('[ADMIN ENDPOINT] Decoded token:', decoded);
     if (!decoded.role) {
-      console.warn('[ADMIN ENDPOINT] Token does not contain a role:', decoded);
       return res.status(401).json({ error: 'Invalid token: No role in token.' });
     }
     if (decoded.role !== 'admin') {
-      console.warn('[ADMIN ENDPOINT] User is not admin:', decoded);
       return res.status(403).json({ error: 'Forbidden: Admins only' });
     }
     // Get all surveys with questions
@@ -107,7 +92,14 @@ export const downloadAllSurveyData = async (req: Request, res: Response) => {
       fileContent = JSON.stringify(surveys, null, 2);
     }
     const fileName = `survey_data_${Date.now()}.${fileExt}`;
-    const filePath = path.join(__dirname, '../../downloads', fileName);
+    const downloadsDir = path.join(__dirname, '../../downloads');
+    
+    // Create downloads directory if it doesn't exist
+    if (!fs.existsSync(downloadsDir)) {
+      fs.mkdirSync(downloadsDir, { recursive: true });
+    }
+    
+    const filePath = path.join(downloadsDir, fileName);
     fs.writeFileSync(filePath, fileContent);
     res.download(filePath, fileName, err => {
       if (err) {
@@ -132,10 +124,6 @@ export const getUserSubmissions = async (req: Request, res: Response) => {
     headerToken = authHeader.split(' ')[1];
   }
   const token = cookieToken || headerToken;
-  console.log('getUserSubmissions: Authorization header:', authHeader);
-  console.log('getUserSubmissions: Cookie token:', cookieToken);
-  console.log('getUserSubmissions: Header token:', headerToken);
-  console.log('getUserSubmissions: Using token:', token);
   if (!token) return res.status(401).json({ error: 'Not authenticated' });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
@@ -143,7 +131,6 @@ export const getUserSubmissions = async (req: Request, res: Response) => {
     const submissions = await getSurveySubmissionByUser(userId);
     return res.json({ submissions });
   } catch (err) {
-    console.error('getUserSubmissions: Invalid token error:', err);
     return res.status(401).json({ error: 'Invalid token' });
   }
 };
@@ -202,7 +189,6 @@ export const getSurvey = async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Survey not found' });
     }
     
-    console.log(`Found survey: ${survey.title} with ${survey.questions.length} questions`);
     res.json(survey);
   } catch (error) {
     console.error('Error fetching survey:', error);
@@ -224,8 +210,7 @@ export const createSurvey = async (req: Request, res: Response) => {
   const survey = await createSurveyWithQuestions(title, description, questions);
     res.status(201).json(survey);
   } catch (error) {
-    console.error('Error creating survey:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Failed to create survey' });
   }
 };
 
@@ -249,9 +234,8 @@ export const addQuestionToSurvey = async (req: Request, res: Response) => {
     );
     
     res.status(201).json(question);
-  } catch (error) {
-    console.error('Error adding question:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    } catch (error) {
+    res.status(500).json({ error: 'Failed to add question' });
   }
 };
 

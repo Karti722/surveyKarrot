@@ -25,9 +25,7 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-    const { email, username, password } = req.body;
-    const loginId = email || username;
-    console.log('LOGIN ATTEMPT:', { loginId, password });
+    const { email: loginId, password } = req.body;
     try {
         // Try username first
         let user = await findUserByUsername(loginId);
@@ -36,24 +34,18 @@ export const login = async (req: Request, res: Response) => {
             const result = await pool.query('SELECT * FROM users WHERE email = $1', [loginId]);
             user = result.rows[0];
         }
-        console.log('USER FOUND:', user);
         if (!user) {
-            console.error('User not found:', loginId);
             return res.status(401).json({ error: 'User not found. Please register.' });
         }
         const passwordMatch = await bcrypt.compare(password, user.password);
-        console.log('PASSWORD MATCH:', passwordMatch);
         if (passwordMatch) {
             const token = jwt.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET!, { expiresIn: '7d' });
             res.cookie('token', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
-            console.log('LOGIN SUCCESS:', user.username);
             return res.json({ message: 'Login successful', user: { id: user.id, username: user.username, role: user.role }, token });
         } else {
-            console.error('Invalid credentials for user:', loginId);
             return res.status(401).json({ error: 'Invalid credentials' });
         }
     } catch (error) {
-        console.error('LOGIN ERROR:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
