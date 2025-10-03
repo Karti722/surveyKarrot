@@ -41,7 +41,6 @@ export const getAllSurveySubmissions = async (req: Request, res: Response) => {
     const submissions = await surveyService.getAllSurveySubmissions();
     res.json(submissions);
   } catch (e) {
-    console.error('[ADMIN ENDPOINT] Token verification failed:', e);
     return res.status(401).json({ error: 'Invalid token: ' + (e instanceof Error ? e.message : String(e)) });
   }
 };
@@ -110,7 +109,6 @@ export const downloadAllSurveyData = async (req: Request, res: Response) => {
       }
     });
   } catch (e) {
-    console.error('[ADMIN ENDPOINT] Token verification failed:', e);
     return res.status(401).json({ error: 'Invalid token: ' + (e instanceof Error ? e.message : String(e)) });
   }
 };
@@ -169,15 +167,13 @@ export const getSurveys = async (req: Request, res: Response) => {
     const surveys = await surveyService.getAllSurveys();
     res.json(surveys);
   } catch (error) {
-    console.error('Error fetching surveys:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Failed to fetch surveys' });
   }
 };
 
 export const getSurvey = async (req: Request, res: Response) => {
   try {
     const surveyId = parseInt(req.params.id);
-    console.log(`Getting survey with ID: ${surveyId}`);
     
     if (isNaN(surveyId)) {
       return res.status(400).json({ error: 'Invalid survey ID' });
@@ -191,8 +187,6 @@ export const getSurvey = async (req: Request, res: Response) => {
     
     res.json(survey);
   } catch (error) {
-    console.error('Error fetching survey:', error);
-    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
     res.status(500).json({ 
       error: 'Internal Server Error',
       message: error instanceof Error ? error.message : 'Unknown error'
@@ -258,7 +252,9 @@ export const submitSurveyResponse = async (req: AuthenticatedRequest, res: Respo
       }
     }
     
-    console.log('Request body user:', req.body.user);
+    const { answers, user } = req.body;
+    
+    // Generate a unique session ID
     let userId = req.user ? req.user.id : undefined;
     // If not authenticated, try to get userId from request body
     if (!userId && req.body.user && req.body.user.id) {
@@ -266,14 +262,9 @@ export const submitSurveyResponse = async (req: AuthenticatedRequest, res: Respo
     }
     const result = await surveyService.submitSurveyResponse(surveyId, responses, userId);
     
-    res.status(201).json({
-      message: 'Survey response submitted successfully',
-      sessionId: result.sessionId,
-      submissionId: result.submissionId
-    });
+    res.json({ message: 'Survey response submitted successfully', sessionId: result.sessionId });
   } catch (error) {
-    console.error('Error submitting survey response:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Failed to submit survey response' });
   }
 };
 
@@ -288,7 +279,6 @@ export const getSurveySubmission = async (req: Request, res: Response) => {
     
     res.json(submission);
   } catch (error) {
-    console.error('Error fetching survey submission:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -296,16 +286,12 @@ export const getSurveySubmission = async (req: Request, res: Response) => {
 // Utility endpoint to create sample survey
 export const createSampleSurvey = async (req: Request, res: Response) => {
   try {
-    console.log('Creating sample survey...');
     const survey = await surveyService.createSampleSurvey();
-    console.log(`Sample survey created with ID: ${survey.id}`);
     res.status(201).json({
       message: 'Sample survey created successfully',
       survey
     });
   } catch (error) {
-    console.error('Error creating sample survey:', error);
-    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
     res.status(500).json({ 
       error: 'Internal Server Error',
       message: error instanceof Error ? error.message : 'Unknown error'
