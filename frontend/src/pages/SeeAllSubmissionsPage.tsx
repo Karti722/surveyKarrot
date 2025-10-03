@@ -24,9 +24,6 @@ const SeeAllSubmissionsPage: React.FC = () => {
     const headers: Record<string, string> = {};
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
-      console.log('[ADMIN PAGE] Using token:', token);
-    } else {
-      console.warn('[ADMIN PAGE] No token found in localStorage.');
     }
     fetch(`${API_BASE}/admin/all-submissions`, {
       credentials: 'include',
@@ -48,9 +45,6 @@ const SeeAllSubmissionsPage: React.FC = () => {
 
   const handleDownload = async (fileType: string) => {
     const token = localStorage.getItem('token');
-    console.log('[DOWNLOAD] Token from localStorage:', token);
-    console.log('[DOWNLOAD] Current user:', user);
-    console.log('[DOWNLOAD] User role:', user?.role);
     
     if (!token) {
       alert('No authentication token found. Please log in again.');
@@ -72,12 +66,8 @@ const SeeAllSubmissionsPage: React.FC = () => {
       body: JSON.stringify({ downloadFileType: fileType })
     });
     
-    console.log('[DOWNLOAD] Response status:', res.status);
-    console.log('[DOWNLOAD] Response ok:', res.ok);
-    
     if (!res.ok) {
       const errorText = await res.text();
-      console.error('[DOWNLOAD] Error response:', errorText);
       return alert(`Download failed: ${res.status} - ${errorText}`);
     }
     
