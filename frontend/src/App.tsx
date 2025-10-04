@@ -14,21 +14,23 @@ import HowToUsePage from './pages/HowToUsePage';
 
 function App() {
   return (
-    <div className="min-h-screen text-gray-900">
+    <div className="min-h-screen text-gray-900 bg-gray-50">
       <Navbar />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/survey/:surveyId" element={<SurveyPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/thank-you" element={<ThankYouPage />} />
-        <Route path="/:username-survey-submissions" element={<DashboardPage />} />
-        <Route path="/:username-survey-submissions/:submissionId" element={<SubmissionDetailPage />} />
-        <Route path="/seeAllSubmissions" element={<SeeAllSubmissionsPage />} />
-        <Route path="/createSurvey" element={<CreateSurveyPage />} />
-        <Route path="/how-to-use" element={<HowToUsePage />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+      <main className="pt-2">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/survey/:surveyId" element={<SurveyPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/thank-you" element={<ThankYouPage />} />
+          <Route path="/:username-survey-submissions" element={<DashboardPage />} />
+          <Route path="/:username-survey-submissions/:submissionId" element={<SubmissionDetailPage />} />
+          <Route path="/seeAllSubmissions" element={<SeeAllSubmissionsPage />} />
+          <Route path="/createSurvey" element={<CreateSurveyPage />} />
+          <Route path="/how-to-use" element={<HowToUsePage />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </main>
     </div>
   );
 }
