@@ -40,10 +40,6 @@ export const getAllSurveySubmissions = async (): Promise<SurveySubmission[]> => 
 };
 // Get all submissions for a user
 export const getSurveySubmissionByUser = async (userId: number): Promise<SurveySubmission[]> => {
-  // const debugSurveyRows = await pool.query('SELECT * FROM survey_submissions');
-  // console.log('DEBUG: survey_submissions table rows for user_id', userId, debugSurveyRows.rows);
-  
-  
   const result = await pool.query(
     `SELECT ss.*, s.title as survey_title, s.created_at as survey_created_at,
        json_agg(
@@ -61,7 +57,6 @@ export const getSurveySubmissionByUser = async (userId: number): Promise<SurveyS
      GROUP BY ss.id, s.title, s.created_at`,
     [userId]
   );
-  console.log('User submissions found:', userId);
   return result.rows;
 };
 // Delete all submissions and responses for a user
@@ -142,15 +137,12 @@ export const getSurveyById = async (id: number): Promise<Survey | null> => {
 // Question CRUD operations
 export const createQuestion = async (question: Omit<Question, 'id'>): Promise<Question> => {
   try {
-    console.log('createQuestion called with:', JSON.stringify(question, null, 2));
-    console.log('Options value before DB insert:', question.options);
     const result = await pool.query(
       'INSERT INTO questions (survey_id, title, description, question_type, options, required, order_index) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
       [question.survey_id, question.title, question.description, question.question_type, 
        question.options ? JSON.stringify(question.options) : null, question.required, question.order_index]
     );
     const row = result.rows[0];
-    console.log('DB returned row:', row);
     return {
       ...row,
       options: (() => {
@@ -163,9 +155,7 @@ export const createQuestion = async (question: Omit<Question, 'id'>): Promise<Qu
       })()
     };
   } catch (error) {
-    console.error('Error creating question:', error);
     if (error instanceof Error) {
-      console.error('Error message:', error.message);
       if ((error as any).detail) {
         console.error('Error detail:', (error as any).detail);
       }

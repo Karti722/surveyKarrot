@@ -24,9 +24,6 @@ const SeeAllSubmissionsPage: React.FC = () => {
     const headers: Record<string, string> = {};
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
-      console.log('[ADMIN PAGE] Using token:', token);
-    } else {
-      console.warn('[ADMIN PAGE] No token found in localStorage.');
     }
     fetch(`${API_BASE}/admin/all-submissions`, {
       credentials: 'include',
@@ -47,16 +44,33 @@ const SeeAllSubmissionsPage: React.FC = () => {
   }, []);
 
   const handleDownload = async (fileType: string) => {
-  const res = await fetch(`${API_BASE}/admin/download-survey-data`, {
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      alert('No authentication token found. Please log in again.');
+      return;
+    }
+    
+    if (user?.role !== 'admin') {
+      alert('You must be an admin to download survey data.');
+      return;
+    }
+    
+    const res = await fetch(`${API_BASE}/admin/download-survey-data`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ downloadFileType: fileType })
     });
-    if (!res.ok) return alert('Download failed');
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      return alert(`Download failed: ${res.status} - ${errorText}`);
+    }
+    
     const blob = await res.blob();
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -133,7 +147,6 @@ const SeeAllSubmissionsPage: React.FC = () => {
               </tbody>
             </table>
           </div>
-          {/* CSV button moved to top */}
         </>
       )}
     </div>
