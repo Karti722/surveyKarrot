@@ -44,8 +44,7 @@ export const getAllSurveySubmissions = async (req: Request, res: Response) => {
     return res.status(401).json({ error: 'Invalid token: ' + (e instanceof Error ? e.message : String(e)) });
   }
 };
-import fs from 'fs';
-import path from 'path';
+
 // Admin-only: Download all survey data as JSON, CSV, or TXT
 export const downloadAllSurveyData = async (req: Request, res: Response) => {
   let token = undefined;
@@ -91,23 +90,18 @@ export const downloadAllSurveyData = async (req: Request, res: Response) => {
       fileContent = JSON.stringify(surveys, null, 2);
     }
     const fileName = `survey_data_${Date.now()}.${fileExt}`;
-    const downloadsDir = path.join(__dirname, '../../downloads');
     
-    // Create downloads directory if it doesn't exist
-    if (!fs.existsSync(downloadsDir)) {
-      fs.mkdirSync(downloadsDir, { recursive: true });
+    // Send file directly as response (works in serverless environments)
+    let contentType = 'application/json';
+    if (fileType === 'csv') {
+      contentType = 'text/csv';
+    } else if (fileType === 'txt') {
+      contentType = 'text/plain';
     }
     
-    const filePath = path.join(downloadsDir, fileName);
-    fs.writeFileSync(filePath, fileContent);
-    res.download(filePath, fileName, err => {
-      if (err) {
-        res.status(500).json({ error: 'File download failed' });
-      } else {
-        // Optionally delete file after download
-        setTimeout(() => { try { fs.unlinkSync(filePath); } catch {} }, 10000);
-      }
-    });
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+    res.setHeader('Content-Type', contentType);
+    res.send(fileContent);
   } catch (e) {
     return res.status(401).json({ error: 'Invalid token: ' + (e instanceof Error ? e.message : String(e)) });
   }
