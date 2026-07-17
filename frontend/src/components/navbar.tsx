@@ -31,7 +31,7 @@ const Navbar: React.FC = () => {
             <>
               <span className="text-gray-700">Hello, <b className="text-blue-700">{user.username}</b></span>
               <div className="relative group">
-                <button className="text-white font-semibold px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors" style={{ color: '#ffffff' }}>Admin Menu ▼</button>
+                <button className="font-semibold px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors" style={{ color: '#000000' }}>Admin Menu ▼</button>
                 <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
                   <Link to={`/${user.username}-survey-submissions`} className="navbar-link block px-4 py-3 hover:bg-gray-50 border-b border-gray-100 text-gray-700 hover:text-blue-600">📊 My Submissions</Link>
                   <Link to="/seeAllSubmissions" className="navbar-link block px-4 py-3 hover:bg-gray-50 border-b border-gray-100 text-gray-700 hover:text-blue-600">👥 See All Submissions</Link>
