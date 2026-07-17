@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
           <>
             <span className="text-gray-500">👤 Guest</span>
             <Link to="/login" className="navbar-link text-blue-600 hover:text-blue-800 font-medium hover:underline">Login</Link>
-            <Link to="/register" className="navbar-link text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors">Register</Link>
+            <Link to="/register" className="navbar-link text-white font-semibold bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors" style={{ color: '#ffffff' }}>Register</Link>
           </>
         )}
       </div>
